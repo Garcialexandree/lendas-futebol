@@ -5,117 +5,267 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lendas do Futebol | Perfil Interativo</title>
-    
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
     <style>
-        /* [CSS] Variáveis de Cores Temáticas */
         :root {
             --cor-neymar: #009c3b;
             --cor-messi: #43A1D5;
             --cor-cr7: #E42518;
         }
 
-        /* [CSS] Estilos de Fundo e Animações */
         body {
             font-family: 'Poppins', sans-serif;
-            margin: 0; padding: 20px; color: #333;
+            margin: 0;
+            padding: 10px;
+            color: #333;
             transition: background 0.8s ease;
             background-size: 400% 400%;
             animation: moverFundo 15s ease infinite;
             min-height: 100vh;
         }
 
-        .fundo-neymar { background: linear-gradient(-45deg, #002776, #009c3b, #fedf00); }
-        .fundo-messi { background: linear-gradient(-45deg, #43A1D5, #FFFFFF, #D5B048); }
-        .fundo-cr7 { background: linear-gradient(-45deg, #E42518, #046A38, #000000); }
-
-        @keyframes moverFundo {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* Fundos degradê originais */
+        .fundo-neymar {
+            background: linear-gradient(-45deg, #002776, #009c3b, #fedf00);
         }
 
-        /* [CSS] Estilo do Painel Principal (Branco) */
+        .fundo-messi {
+            background: linear-gradient(-45deg, #43A1D5, #FFFFFF, #D5B048);
+        }
+
+        .fundo-cr7 {
+            background: linear-gradient(-45deg, #E42518, #046A38, #000000);
+        }
+
+        @keyframes moverFundo {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
         .container {
             background-color: rgba(255, 255, 255, 0.98);
             max-width: 900px;
-            margin: 20px auto;
-            padding: 40px;
+            margin: 10px auto;
+            padding: 30px 20px;
             border-radius: 30px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
             animation: surgir 1s ease-out;
+            box-sizing: border-box;
         }
 
         @keyframes surgir {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
-        /* [CSS] Estilos dos Botões do Menu */
-        .menu-jogadores { display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; flex-wrap: wrap; }
+        .menu-jogadores {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
         .btn-aba {
-            background-color: #eee; color: #555; border: none;
-            padding: 12px 25px; border-radius: 50px;
-            font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+            background-color: #eee;
+            color: #555;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
-        .ativo-neymar { background-color: var(--cor-neymar) !important; color: white; }
-        .ativo-messi { background-color: var(--cor-messi) !important; color: white; }
-        .ativo-cr7 { background-color: var(--cor-cr7) !important; color: white; }
 
-        /* [CSS] Estilos de Conteúdo e Imagens */
-        .jogador-conteudo { display: none; animation: fadeIn 0.8s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
+        .btn-aba:active {
+            transform: scale(0.95);
+        }
+
+        .ativo-neymar {
+            background-color: var(--cor-neymar) !important;
+            color: white;
+        }
+
+        .ativo-messi {
+            background-color: var(--cor-messi) !important;
+            color: white;
+        }
+
+        .ativo-cr7 {
+            background-color: var(--cor-cr7) !important;
+            color: white;
+        }
+
+        /* Estilo para Transição Suave */
+        .jogador-conteudo {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .jogador-conteudo.visivel {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .foto-perfil {
-            width: 180px; height: 180px; border-radius: 50%;
-            object-fit: cover; border: 5px solid #fff;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #fff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
         .bio-texto {
-            line-height: 1.8; text-align: justify; color: #444;
-            padding: 20px; background: #fdfdfd; border-radius: 15px; border-left: 5px solid #ccc;
+            line-height: 1.6;
+            text-align: justify;
+            color: #444;
+            padding: 20px;
+            background: #fdfdfd;
+            border-radius: 15px;
+            border-left: 5px solid #ccc;
+            font-size: 0.95rem;
         }
 
         .video-container {
-            position: relative; padding-bottom: 56.25%; height: 0;
-            overflow: hidden; border-radius: 15px; margin: 30px 0;
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+            margin: 30px 0;
         }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        /* [CSS] Estilos da Tabela de Estatísticas */
-        .estatisticas-container { margin: 30px 0; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 15px; overflow: hidden; }
-        th, td { padding: 15px; text-align: center; border-bottom: 1px solid #eee; }
-        th { background-color: #333; color: white; }
-        .destaque { font-weight: 700; font-size: 1.2em; }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
 
-        /* [CSS] Estilo do Link do Instagram */
+        /* AJUSTE DA TABELA E CARDS COM BRILHO */
+        .estatisticas-container {
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-spacing: 8px;
+            border-collapse: separate;
+            table-layout: fixed;
+            /* Essencial para não ter barra de rolagem */
+        }
+
+        th {
+            color: #888;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+        }
+
+        td {
+            background: #fff;
+            border-radius: 15px;
+            padding: 15px 5px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .destaque {
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        /* Efeito de brilho nas cores dos jogadores */
+        .fundo-neymar .destaque {
+            text-shadow: 0 0 8px rgba(0, 156, 59, 0.3);
+        }
+
+        .fundo-messi .destaque {
+            text-shadow: 0 0 8px rgba(67, 161, 213, 0.3);
+        }
+
+        .fundo-cr7 .destaque {
+            text-shadow: 0 0 8px rgba(228, 37, 24, 0.3);
+        }
+
         .social-link {
-            display: inline-flex; align-items: center; gap: 10px;
-            text-decoration: none; color: #fff; background:#e1306c
-            ;
-            padding: 10px 20px; border-radius: 10px; font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #fff;
+            background: #e1306c;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
         }
 
-        footer { text-align: center; margin-top: 40px; color: white; font-size: 0.8em; }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: white;
+            font-size: 0.8em;
+            padding-bottom: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .btn-aba {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+
+            .foto-perfil {
+                width: 120px;
+                height: 120px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
     </style>
 </head>
 
-<body class="fundo-neymar"> 
+<body class="fundo-neymar">
 
     <div class="container">
-        
+
         <div class="menu-jogadores">
-            <button class="btn-aba ativo-neymar" id="btn-neymar" onclick="selecionarJogador('neymar')">Neymar Jr.</button>
+            <button class="btn-aba ativo-neymar" id="btn-neymar" onclick="selecionarJogador('neymar')">Neymar
+                Jr.</button>
             <button class="btn-aba" id="btn-messi" onclick="selecionarJogador('messi')">Lionel Messi</button>
             <button class="btn-aba" id="btn-cr7" onclick="selecionarJogador('cr7')">Cristiano Ronaldo</button>
         </div>
 
-        <div id="secao-neymar" class="jogador-conteudo" style="display: block;">
-            
+        <div id="secao-neymar" class="jogador-conteudo visivel" style="display: block;">
             <div class="perfil-header" style="text-align: center;">
                 <img class="foto-perfil" src="img/ney.jpg" alt="Neymar">
                 <h1 style="color: var(--cor-neymar);">Neymar Jr.</h1>
@@ -123,20 +273,22 @@
                     <i class="fab fa-instagram"></i> Siga @neymarjr
                 </a>
             </div>
-
             <div class="bio-texto" style="border-color: var(--cor-neymar); margin-top: 20px;">
-                <p>Neymar Jr. começou sua jornada no Santos FC, onde encantou o mundo com seus dribles e conquistou a Libertadores de 2011. No Barcelona, fez história ao lado de Messi e Suárez. É conhecido como o maior artilheiro da Seleção Brasileira em jogos oficiais.</p>
+                <p>Neymar Jr. começou sua jornada no Santos FC, onde encantou o mundo com seus dribles e conquistou a
+                    Libertadores de 2011. No Barcelona, fez história ao lado de Messi e Suárez.</p>
             </div>
-
             <div class="video-container">
-               <iframe width="560" height="315" src="https://www.youtube.com/embed/veaT-dG8BB4?si=4KAoRs1aZu5a20hm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/veaT-dG8BB4?si=4KAoRs1aZu5a20hm" allowfullscreen></iframe>
             </div>
-
-            <h2 style="border-bottom: 3px solid var(--cor-neymar);">Estatísticas</h2>
+            <h2 style="border-bottom: 3px solid var(--cor-neymar); font-size: 1.2rem;">Estatísticas</h2>
             <div class="estatisticas-container">
                 <table>
                     <thead>
-                        <tr><th>Gols</th><th>Assistências</th><th>Títulos</th></tr>
+                        <tr>
+                            <th>Gols</th>
+                            <th>Assist.</th>
+                            <th>Títulos</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr>
@@ -150,7 +302,6 @@
         </div>
 
         <div id="secao-messi" class="jogador-conteudo">
-            
             <div class="perfil-header" style="text-align: center;">
                 <img class="foto-perfil" src="img/messi.jpg" alt="Messi">
                 <h1 style="color: var(--cor-messi);">Lionel Messi</h1>
@@ -158,20 +309,22 @@
                     <i class="fab fa-instagram"></i> Siga @leomessi
                 </a>
             </div>
-
             <div class="bio-texto" style="border-color: var(--cor-messi); margin-top: 20px;">
-                <p>Lionel Messi é sinônimo de genialidade. Passou a maior parte da carreira no Barcelona, onde ganhou 4 Champions. Em 2022, realizou o maior sonho de sua vida: ser campeão da Copa do Mundo com a Argentina.</p>
+                <p>Lionel Messi é sinônimo de genialidade. Passou a maior parte da carreira no Barcelona. Em 2022,
+                    realizou o sonho de ser campeão da Copa do Mundo com a Argentina.</p>
             </div>
-
             <div class="video-container">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/jB_won9HULM?si=73uqEaFMApKYGhQs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/jB_won9HULM?si=73uqEaFMApKYGhQs" allowfullscreen></iframe>
             </div>
-
-            <h2 style="border-bottom: 3px solid var(--cor-messi);">Estatísticas</h2>
+            <h2 style="border-bottom: 3px solid var(--cor-messi); font-size: 1.2rem;">Estatísticas</h2>
             <div class="estatisticas-container">
                 <table>
                     <thead>
-                        <tr><th>Gols</th><th>Assistências</th><th>Títulos</th></tr>
+                        <tr>
+                            <th>Gols</th>
+                            <th>Assist.</th>
+                            <th>Títulos</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr>
@@ -184,31 +337,30 @@
             </div>
         </div>
 
-        <div id="secao-cr7" class="jogador-conteudo"> 
-            
-           <div class="perfil-header" style="text-align: center;">
-    <img class="foto-perfil" src="img/cr7taca.png" alt="CR7">
-    
-    <h1 style="color: var(--cor-cr7);">Cristiano Ronaldo</h1>
-    
-    <a href="https://www.instagram.com/cristiano/" target="_blank" class="social-link" style="background: #e1306c;">
-        <i class="fab fa-instagram"></i> Siga @cristiano
-    </a>
-</div>
-
+        <div id="secao-cr7" class="jogador-conteudo">
+            <div class="perfil-header" style="text-align: center;">
+                <img class="foto-perfil" src="img/cr7taca.png" alt="CR7">
+                <h1 style="color: var(--cor-cr7);">Cristiano Ronaldo</h1>
+                <a href="https://www.instagram.com/cristiano/" target="_blank" class="social-link">
+                    <i class="fab fa-instagram"></i> Siga @cristiano
+                </a>
+            </div>
             <div class="bio-texto" style="border-color: var(--cor-cr7); margin-top: 20px;">
-                <p>Cristiano Ronaldo é a personificação do esforço e da disciplina. Venceu em Portugal, Inglaterra, Espanha e Itália. É o maior artilheiro da história da Champions League e das seleções nacionais.</p>
+                <p>Cristiano Ronaldo é a personificação do esforço. É o maior artilheiro da história da Champions League
+                    e das seleções nacionais.</p>
             </div>
-
             <div class="video-container">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/3A7fobRnUXQ?si=oFl6y9L_oJNCHz1A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/3A7fobRnUXQ?si=oFl6y9L_oJNCHz1A" allowfullscreen></iframe>
             </div>
-
-            <h2 style="border-bottom: 3px solid var(--cor-cr7);">Estatísticas</h2>
+            <h2 style="border-bottom: 3px solid var(--cor-cr7); font-size: 1.2rem;">Estatísticas</h2>
             <div class="estatisticas-container">
                 <table>
                     <thead>
-                        <tr><th>Gols</th><th>Assistências</th><th>Títulos</th></tr>
+                        <tr>
+                            <th>Gols</th>
+                            <th>Assist.</th>
+                            <th>Títulos</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr>
@@ -221,32 +373,64 @@
             </div>
         </div>
 
-        <div style="text-align: center; margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+        <div
+            style="text-align: center; margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; font-size: 0.9rem;">
             Desenvolvido por <strong>Alexandre Garcia</strong>
         </div>
 
-    </div> <footer>
-        © 2026 - Galeria Lendas do Futebol
-    </footer>
+    </div>
+
+    <footer>© 2026 - Galeria Lendas do Futebol</footer>
 
     <script>
-        function selecionarJogador(jogador) {
-            // Esconde todas as seções
-            const secoes = document.querySelectorAll('.jogador-conteudo');
-            secoes.forEach(s => s.style.display = 'none');
+        function emitirSomClique() {
+            const context = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = context.createOscillator();
+            const gain = context.createGain();
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(800, context.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(100, context.currentTime + 0.1);
+            gain.gain.setValueAtTime(0.05, context.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.1);
+            oscillator.connect(gain);
+            gain.connect(context.destination);
+            oscillator.start();
+            oscillator.stop(context.currentTime + 0.1);
+        }
 
-            // Reseta as cores dos botões
-            const botoes = document.querySelectorAll('.btn-aba');
-            botoes.forEach(b => {
-                b.classList.remove('ativo-neymar', 'ativo-messi', 'ativo-cr7');
+        function selecionarJogador(jogador) {
+            emitirSomClique();
+
+            // 1. Reseta Vídeos (Para o áudio)
+            const iframes = document.querySelectorAll('iframe');
+            iframes.forEach(iframe => {
+                const url = iframe.src;
+                iframe.src = "";
+                iframe.src = url;
             });
 
-            // Mostra a seção clicada e muda o fundo da página
-            document.getElementById('secao-' + jogador).style.display = 'block';
-            document.body.className = 'fundo-' + jogador;
-            document.getElementById('btn-' + jogador).classList.add('ativo-' + jogador);
+            // 2. Esconde seções com animação
+            const secoes = document.querySelectorAll('.jogador-conteudo');
+            secoes.forEach(s => {
+                s.classList.remove('visivel');
+                setTimeout(() => { if (!s.classList.contains('visivel')) s.style.display = 'none'; }, 300);
+            });
+
+            // 3. Reseta Botões
+            const botoes = document.querySelectorAll('.btn-aba');
+            botoes.forEach(b => b.classList.remove('ativo-neymar', 'ativo-messi', 'ativo-cr7'));
+
+            // 4. Ativa Novo Jogador
+            setTimeout(() => {
+                const secaoAtiva = document.getElementById('secao-' + jogador);
+                secaoAtiva.style.display = 'block';
+                setTimeout(() => secaoAtiva.classList.add('visivel'), 50);
+
+                document.body.className = 'fundo-' + jogador;
+                document.getElementById('btn-' + jogador).classList.add('ativo-' + jogador);
+            }, 300);
         }
     </script>
-
 </body>
+
 </html>
