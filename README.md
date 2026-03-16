@@ -30,4 +30,4 @@ Este é um projeto de front-end interativo que apresenta perfis detalhados de tr
 ## ✒️ Autor
 * *Alexandre Garcia* - Desenvolvimento e Design
 ![Demonstração do Projeto](./demo.gif.gif)
-# LINK https://lendasdofut.netlify.app
+# Acesse o link do site https://lendasdofut.netlify.app
